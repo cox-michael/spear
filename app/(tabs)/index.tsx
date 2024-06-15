@@ -1,10 +1,11 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, Platform, Text, View } from "react-native";
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import styled from "styled-components/native";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { Colors } from "@/constants/Colors";
 
 const Table = styled.View`
   width: 100%;
@@ -30,7 +31,7 @@ const Amount = ({ amount }: { amount: number }) => {
   const dollars = Math.floor(amount);
   const cents = (amount.toString().split(".")[1] || "00").padEnd(2, "0");
   const negative = amount < 0;
-  const color = negative ? "inherit" : "green";
+  const color = negative ? "inherit" : Colors.spearmint;
 
   return (
     <ThemedText style={{ color }}>
@@ -55,16 +56,66 @@ const CompactDate = ({ date }: { date: Date }) => {
 };
 
 const transactions = [
-  { date: new Date("2023-01-01"), store: "Store A", amount: -100 },
-  { date: new Date("2023-01-02"), store: "Company B", amount: -200.1 },
-  { date: new Date("2023-01-03"), store: "Store C", amount: -150.11 },
-  { date: new Date("2023-01-04"), store: "Company D", amount: -250.12 },
-  { date: new Date("2023-01-05"), store: "Store E", amount: 350.13 },
-  { date: new Date("2023-01-06"), store: "Company F", amount: -400.14 },
-  { date: new Date("2023-01-07"), store: "Store G", amount: -450.15 },
-  { date: new Date("2023-01-08"), store: "Company H", amount: -500.16 },
-  { date: new Date("2023-01-09"), store: "Store I", amount: -550.17 },
-  { date: new Date("2023-01-10"), store: "Company J", amount: 600.18 },
+  {
+    date: new Date("2023-01-01"),
+    store: "Publix",
+    amount: -100,
+    category: "Groceries",
+  },
+  {
+    date: new Date("2023-01-02"),
+    store: "Amazon",
+    amount: -200.1,
+    category: "Shopping",
+  },
+  {
+    date: new Date("2023-01-03"),
+    store: "GrubHub",
+    amount: -150.11,
+    category: "Restaurants",
+  },
+  {
+    date: new Date("2023-01-04"),
+    store: "Walmart",
+    amount: -250.12,
+    category: "Groceries",
+  },
+  {
+    date: new Date("2023-01-05"),
+    store: "SP Levain Bakery",
+    amount: 350.13,
+    category: "Restaurants",
+  },
+  {
+    date: new Date("2023-01-06"),
+    store: "Thornebrook Chocolates",
+    amount: -400.14,
+    category: "Shopping",
+  },
+  {
+    date: new Date("2023-01-07"),
+    store: "Hardees",
+    amount: -450.15,
+    category: "Restaurants",
+  },
+  {
+    date: new Date("2024-01-08"),
+    store: "Open Roads",
+    amount: -500.16,
+    category: "Fuel",
+  },
+  {
+    date: new Date("2024-01-09"),
+    store: "Tractor Supply Company",
+    amount: -550.17,
+    category: "Shopping",
+  },
+  {
+    date: new Date("2024-01-10"),
+    store: "ALLEY GATORZ",
+    amount: 600.18,
+    category: "Amusement",
+  },
 ];
 
 const TransactionTable = () => {
@@ -76,6 +127,11 @@ const TransactionTable = () => {
     flex: ${(props) => props.flex || 0};
   `;
 
+  const Category = styled.Text`
+    font-size: 12px;
+    color: #888;
+  `;
+
   return (
     <Table>
       {transactions.map((transaction, index) => (
@@ -83,7 +139,12 @@ const TransactionTable = () => {
           <Cell>
             <CompactDate date={transaction.date} />
           </Cell>
-          <Cell flex={1}>{transaction.store}</Cell>
+          <Cell flex={1}>
+            <View>
+              <Text>{transaction.store}</Text>
+              <Category>{transaction.category}</Category>
+            </View>
+          </Cell>
           <Cell>
             <Amount {...{ amount: transaction.amount }} />
           </Cell>
@@ -109,33 +170,10 @@ export default function HomeScreen() {
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          to see changes. PressPress{" "}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: "cmd + d", android: "cmd + m" })}
-          </ThemedText>{" "}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 2: Explore</ThemedText>
         <ThemedText>
           Tap the Explore tab to learn more about what's included in this
           starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{" "}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>{" "}
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>{" "}
-          directory. This will move the current{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
         </ThemedText>
       </ThemedView>
       <ThemedView>
@@ -148,8 +186,8 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
   },
   stepContainer: {
@@ -161,6 +199,6 @@ const styles = StyleSheet.create({
     width: 290,
     bottom: 0,
     left: 0,
-    position: 'absolute',
+    position: "absolute",
   },
 });
