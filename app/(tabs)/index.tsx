@@ -1,12 +1,4 @@
-import {
-  Image,
-  StyleSheet,
-  Platform,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { Image, StyleSheet, TextInput } from "react-native";
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
